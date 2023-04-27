@@ -11,30 +11,20 @@ class Interface(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Merzouk Sarah _ TP_Synthèse")
-        self.geometry("400x250")
-        
-        # cadres
-        frm_debut = tk.Frame(self)
-        frm_debut.pack()
-        
-        frm_distance = tk.Frame(self)
-        frm_distance.pack(side="left")
-        
-        frm_angle = tk.Frame(self)
-        frm_angle.pack(side="right")
+        self.geometry("400x330")
         
         # bouton pour démarrer le système de captation de distance et d'angle
-        self.btn_demarrer = tk.Button(frm_debut, text="Démarrer le système de captation", width = 30)
+        self.btn_demarrer = tk.Button(self, text="Démarrer le système de captation", width = 30)
         self.btn_demarrer["command"] = self.btn_demarrerCaptation_click
         self.btn_demarrer.pack()
         
         # label pour afficher qu'il faut choisir une mesure
-        self.lbl_choixMesure = tk.Label(frm_debut, text="Veuillez choisir ce que vous voulez mesurer:")
+        self.lbl_choixMesure = tk.Label(self, text="Veuillez choisir ce que vous voulez mesurer:")
         self.lbl_choixMesure.pack()
         
         # boutons radio pour choisir si on veut mesurer la distance ou l'angle
         self.rbtn_var = tk.IntVar()
-        self.btnRadio_distance = tk.Radiobutton(frm_debut, 
+        self.btnRadio_distance = tk.Radiobutton(self, 
                text="Mesurer la distance",
                padx = 20, 
                variable= self.rbtn_var, 
@@ -43,7 +33,7 @@ class Interface(tk.Tk):
         self.btnRadio_distance["command"] = self.rbtn_mesurerDistance_click
         self.btnRadio_distance.pack()
         
-        self.btnRadio_angle = tk.Radiobutton(frm_debut, 
+        self.btnRadio_angle = tk.Radiobutton(self, 
                text="Mesurer l'angle",
                padx = 20, 
                variable=self.rbtn_var, 
@@ -53,32 +43,24 @@ class Interface(tk.Tk):
         self.btnRadio_angle.pack()
         self.rbtn_var.set(1)
 
-        # label pour la mesure de la distance
-        self.lbl_distance = tk.Label(frm_distance, text="Mesurer la distance:")
-        self.lbl_distance.pack()
+        # label pour la mesure
+        self.lbl_mesure = tk.Label(self, text="Écrire si c'est la mesure d'une distance ou d'un angle:")
+        self.lbl_mesure.pack()
         
-        # champ texte pour saisir la description de la mesure de la distance
-        self.txt_description_distance = tk.Text(frm_distance, width=15, height=1, state="disabled")
-        self.txt_description_distance.pack()
+        # champ texte pour saisir la description de la mesure (si c'est une distance ou un angle)
+        self.txt_description = tk.Text(self, width=30, height=1, state="disabled")
+        self.txt_description.pack()
+
+        # label pour afficher l'angle à envoyer au pico, si c'est une angle qu'on mesure
+        self.lbl_nombreAngle = tk.Label(self, text="Angle:")
+        self.lbl_nombreAngle.pack()
         
-        # label pour la mesure de l'angle
-        self.lbl_angle = tk.Label(frm_angle, text="Mesurer l'angle:")
-        self.lbl_angle.pack()
-        
-        # champ texte pour saisir la description de la mesure de l'angle
-        self.txt_description_angle = tk.Text(frm_angle, width=15, height=1, state="disabled")
-        self.txt_description_angle.pack()
-        
-        # label pour afficher l'angle à envoyer au pico
-        self.lbl_nombreAngle = tk.Label(frm_angle, text="Angle:")
-        self.lbl_nombreAngle.pack(side="left")
-        
-        # champ texte pour saisir l'angle
-        self.txt_angle = tk.Text(frm_angle, width=3, height=1, state="disabled")
+        # champ texte pour saisir l'angle, si c'est un angle qu'on mesure
+        self.txt_angle = tk.Text(self, width=3, height=1, state="disabled")
         self.txt_angle.pack()
         
         # la listBox qui contient les mesures soit des distances, soit des angles
-        self.list_mesures = tk.Listbox(self, height=5, width=100, selectmode=tk.SINGLE, selectbackground="blue")
+        self.list_mesures = tk.Listbox(self, height=5, width=40, selectmode=tk.SINGLE, selectbackground="blue")
         self.list_mesures.pack()
         self.list_mesures.bind("<<ListboxSelect>>")
         
@@ -93,9 +75,10 @@ class Interface(tk.Tk):
         
     def btn_demarrerCaptation_click(self):
         
-        # activer mes radios boutons
+        # activer mes radios boutons et mon champ description
         self.btnRadio_distance.config(state="active")
         self.btnRadio_angle.config(state="active")
+        self.txt_description.config(state="normal")
         self.lbl_etat_systeme.config(text="ACTIVÉ", fg="green")
     
     def rbtn_mesurerDistance_click(self):
