@@ -33,22 +33,25 @@ class Interface(tk.Tk):
         self.lbl_choixMesure.pack()
         
         # boutons radio pour choisir si on veut mesurer la distance ou l'angle
-        rbtn_var = tk.IntVar()
+        self.rbtn_var = tk.IntVar()
         self.btnRadio_distance = tk.Radiobutton(frm_debut, 
                text="Mesurer la distance",
                padx = 20, 
-               variable= rbtn_var, 
-               value=1)
+               variable= self.rbtn_var, 
+               value=1,
+               state="disabled")
         self.btnRadio_distance["command"] = self.rbtn_mesurerDistance_click
         self.btnRadio_distance.pack()
         
         self.btnRadio_angle = tk.Radiobutton(frm_debut, 
                text="Mesurer l'angle",
                padx = 20, 
-               variable=rbtn_var, 
-               value=2)
+               variable=self.rbtn_var, 
+               value=2,
+               state="disabled")
         self.btnRadio_angle["command"] = self.rbtn_mesurerAngle_click
         self.btnRadio_angle.pack()
+        self.rbtn_var.set(1)
 
         # label pour la mesure de la distance
         self.lbl_distance = tk.Label(frm_distance, text="Mesurer la distance:")
@@ -89,7 +92,11 @@ class Interface(tk.Tk):
         self.lbl_etat_systeme.pack(side="bottom")
         
     def btn_demarrerCaptation_click(self):
-        pass
+        
+        # activer mes radios boutons
+        self.btnRadio_distance.config(state="active")
+        self.btnRadio_angle.config(state="active")
+        self.lbl_etat_systeme.config(text="ACTIVÉ", fg="green")
     
     def rbtn_mesurerDistance_click(self):
         pass
