@@ -81,12 +81,17 @@ class Interface(tk.Tk):
         self.txt_description.config(state="normal")
         self.btn_mesurer.config(state="active")
         self.lbl_etat_systeme.config(text="ACTIVÉ", fg="green")
-    
+        
     def rbtn_mesurerDistance_click(self):
-        pass
+        
+        # activer mon champ texte pour entrer un angle
+        self.txt_angle.delete("1.0","end")
+        self.txt_angle.config(state="disabled")    
            
-    def rbtn_mesurerAngle_click(zelf):
-        pass
+    def rbtn_mesurerAngle_click(self):
+        
+        # activer mon champ texte pour entrer un angle
+        self.txt_angle.config(state="normal")
     
     def btn_prendreMesure_click(self):
         pass
