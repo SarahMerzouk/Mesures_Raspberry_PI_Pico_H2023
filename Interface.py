@@ -22,7 +22,7 @@ class Interface(tk.Tk):
         self.lbl_choixMesure = tk.Label(self, text="Veuillez choisir ce que vous voulez mesurer:")
         self.lbl_choixMesure.pack()
         
-        # boutons radio pour choisir si on veut mesurer la distance ou l'angle
+        # boutons radio pour choisir si on veut mesurer la distance ou l'angle (inactif au début)
         self.rbtn_var = tk.IntVar()
         self.btnRadio_distance = tk.Radiobutton(self, 
                text="Mesurer la distance",
@@ -47,7 +47,7 @@ class Interface(tk.Tk):
         self.lbl_mesure = tk.Label(self, text="Écrire si c'est la mesure d'une distance ou d'un angle:")
         self.lbl_mesure.pack()
         
-        # champ texte pour saisir la description de la mesure (si c'est une distance ou un angle)
+        # champ texte pour saisir la description de la mesure (si c'est une distance ou un angle) (inactif au début)
         self.txt_description = tk.Text(self, width=30, height=1, state="disabled")
         self.txt_description.pack()
 
@@ -55,7 +55,7 @@ class Interface(tk.Tk):
         self.lbl_nombreAngle = tk.Label(self, text="Angle:")
         self.lbl_nombreAngle.pack()
         
-        # champ texte pour saisir l'angle, si c'est un angle qu'on mesure
+        # champ texte pour saisir l'angle, si c'est un angle qu'on mesure (inactif si on ne clique pas sur le bouton radion pour mesure l'angle)
         self.txt_angle = tk.Text(self, width=3, height=1, state="disabled")
         self.txt_angle.pack()
         
@@ -64,7 +64,7 @@ class Interface(tk.Tk):
         self.list_mesures.pack()
         self.list_mesures.bind("<<ListboxSelect>>")
         
-        # bouton pour prendre la mesure
+        # bouton pour prendre la mesure (inactif au début)
         self.btn_mesurer = tk.Button(self, text="Prendre la mesure", width = 30, state="disabled")
         self.btn_mesurer["command"] = self.btn_prendreMesure_click
         self.btn_mesurer.pack()
@@ -75,10 +75,11 @@ class Interface(tk.Tk):
         
     def btn_demarrerCaptation_click(self):
         
-        # activer mes radios boutons et mon champ description
+        # activer mes radios boutons, mon champ description et mon bouton
         self.btnRadio_distance.config(state="active")
         self.btnRadio_angle.config(state="active")
         self.txt_description.config(state="normal")
+        self.btn_mesurer.config(state="active")
         self.lbl_etat_systeme.config(text="ACTIVÉ", fg="green")
     
     def rbtn_mesurerDistance_click(self):
