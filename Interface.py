@@ -10,7 +10,7 @@ import datetime
 class Interface(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Merzouk Sarah _ TP_Synthèse")
+        self.title("Merzouk Sarah _ TP-Synthèse")
         self.geometry("400x330")
         
         # bouton pour démarrer le système de captation de distance et d'angle
@@ -84,13 +84,16 @@ class Interface(tk.Tk):
         
     def rbtn_mesurerDistance_click(self):
         
-        # activer mon champ texte pour entrer un angle
+        # désactiver mon champ texte pour entrer un angle
         self.txt_angle.delete("1.0","end")
+        self.txt_description.delete("1.0","end")
         self.txt_angle.config(state="disabled")    
            
     def rbtn_mesurerAngle_click(self):
         
         # activer mon champ texte pour entrer un angle
+        self.txt_angle.delete("1.0","end")
+        self.txt_description.delete("1.0","end")
         self.txt_angle.config(state="normal")
     
     def btn_prendreMesure_click(self):
