@@ -1,7 +1,8 @@
 from machine import Pin, I2C
 import time
 from I2C_LCD import I2cLcd
-#from myservo import Servo
+from random import randint
+from myservo import Servo
 import sys
 ############################FONCTIONS##############################
 def calculDistance():
@@ -67,9 +68,8 @@ distance = 0
 # rouge dans le VBUS à i1
 # orange dans le GP2 à a4
 # bleue dans le GND à a3
-
-#servo = Servo(2)
-#servo.ServoAngle(0)
+servo = Servo(2)
+servo.ServoAngle(0)
 
 ###################### CAPTATION DE DONNÉES ######################
 lcd_ecran.clear()
@@ -86,18 +86,50 @@ try :
 
             distance = calculDistance()
             
+            # envoyer la distance à l'hôte
+            print(distance)
+            
             lcd_ecran.clear()
             lcd_ecran.move_to(0,0)
             lcd_ecran.putstr("Distance: ")
             lcd_ecran.move_to(0,1)
             lcd_ecran.putstr(str(distance) + " cm")
             
-            # envoyer la distance à l'hôte
-            print(distance)
+            # faire clignoter la lumière verte quelques fois
+            led_rouge.off()
+            clignoterLumiere(led_verte)
+            led_verte.on()
+            
+        elif rep.lower() == "angle":
+            valeur = randint(1,360)
+            angle = calculAngle(valeur)
+            
+            # envoyer l'angle à l'hôte
+            print(angle)
+            
+            lcd_ecran.clear()
+            lcd_ecran.move_to(0,0)
+            lcd_ecran.putstr("Angle: ")
+            lcd_ecran.move_to(0,1)
+            lcd_ecran.putstr(str(angle) + " ")
+            
+            servo.ServoAngle(angle)
             
             # faire clignoter la lumière verte quelques fois
             led_rouge.off()
             clignoterLumiere(led_verte)
             led_verte.on()
+        
+        elif rep.lower() == "off":
+            clignoterLumiere(led_rouge)
+            led_verte.off()
+        
+            lcd_ecran.clear()
+            lcd_ecran.move_to(0,0)
+            lcd_ecran.putstr("Le système")
+            lcd_ecran.move_to(0,1)
+            lcd_ecran.putstr("est arretee!")
+            
+            break
 except:
     pass

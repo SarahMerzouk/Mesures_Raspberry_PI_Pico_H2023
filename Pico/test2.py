@@ -1,6 +1,7 @@
 from machine import Pin, I2C
 from I2C_LCD import I2cLcd
 import time
+from myservo import Servo
 
 def calculDistance():
     distance = 0
@@ -53,3 +54,7 @@ rep = "ANGLE;" + str(nb)
 reponses = rep.split(";")
 
 lcd_ecran.putstr(str(reponses[1]))
+
+servo = Servo(2)
+servo.ServoAngle(0)
+servo.ServoAngle(150)

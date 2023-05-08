@@ -56,6 +56,11 @@ class Interface(tk.Tk):
         self.btn_mesurer["command"] = self.btn_prendreMesure_click
         self.btn_mesurer.pack()
         
+        # bouton pour arrêter tout
+        self.btn_arreter = tk.Button(self, text="Arrêter", width = 30)
+        self.btn_arreter["command"] = self.btn_arreter_click
+        self.btn_arreter.pack()
+        
         # une étiquette qui affiche si le système de captation est activé ou désactivé
         self.lbl_etat_systeme = tk.Label(self, text="DÉSACTIVÉ", fg="red")
         self.lbl_etat_systeme.pack(side="bottom")
@@ -64,8 +69,15 @@ class Interface(tk.Tk):
         # activer mes radios boutons, mon champ description et mon bouton
         self.btnRadio_distance.config(state="active")
         self.btnRadio_angle.config(state="active")
-        self.btn_mesurer.config(state="active")
+        self.btn_mesurer.config(state="normal")
         self.lbl_etat_systeme.config(text="ACTIVÉ", fg="green")
+        
+    def btn_arreter_click(self):
+        s.write(b"OFF\n") # on mesure la distance
+        
+        self.btn_demarrer.config(state="disabled")
+        self.btn_mesurer.config(state="disabled")
+        self.lbl_etat_systeme.config(text="DÉSACTIVÉ", fg="red")
         
     def rbtn_mesurerDistance_click(self):
         self.typeMesure = "distance" 
@@ -74,12 +86,28 @@ class Interface(tk.Tk):
         self.typeMesure = "angle"
     
     def btn_prendreMesure_click(self):
+        i = 0
+        
         if self.typeMesure == "distance":  
             s.write(b"DISTANCE\n") # on mesure la distance
-            
+        
         elif self.typeMesure == "angle":
             s.write(b"ANGLE\n") # on mesure la distance
-    
+        
+        """
+        # récupérer la distance du pico
+        data_in = s.readline()
+        data = str(data_in)[2:-5]
+        print(data)
+        
+        if data != "":
+            mesure = Mesure(datetime.datetime.now, data, self.typeMesure)
+                
+            # ajout de la mesure dans le listBoX
+            self.list_mesures.insert(i, mesure)
+            i+=1
+        """
+            
 if __name__ == "__main__":
     app = Interface()
     app.mainloop()
