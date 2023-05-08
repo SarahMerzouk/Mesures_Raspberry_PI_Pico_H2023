@@ -1,10 +1,8 @@
 from machine import Pin, I2C
 import time
 from I2C_LCD import I2cLcd
-from myservo import Servo
+#from myservo import Servo
 import sys
-import _thread
-
 ############################FONCTIONS##############################
 def calculDistance():
     distance = 0
@@ -30,6 +28,11 @@ def calculDistance():
         
     return distance
 
+def calculAngle(valeur):
+    angle = (valeur * 180) / 65535
+    
+    return int(angle)
+
 def clignoterLumiere(ledChoisie) :
     i = 0
     while i < 3 :
@@ -44,15 +47,6 @@ def clignoterLumiere(ledChoisie) :
             led_verte.off()
             time.sleep_ms(1000)
         i+=1
-
-def lectureRep():
-    global terminateThread, rep
-    while True:
-        if terminateThread:
-            break
-        
-        # lécture commande de l'hôte
-        rep = sys.stdin.readline().strip() 
 ###################################################################
 
 # LED
@@ -70,17 +64,40 @@ echo = Pin(18, Pin.IN)
 distance = 0
 
 # SERVOMOTEUR
-servo = Servo(2)
-servo.ServoAngle(0)
+# rouge dans le VBUS à i1
+# orange dans le GP2 à a4
+# bleue dans le GND à a3
 
-# VARIABLES
-terminateThread = False
-rep = ""
+#servo = Servo(2)
+#servo.ServoAngle(0)
 
 ###################### CAPTATION DE DONNÉES ######################
 lcd_ecran.clear()
 led_rouge.off()
 led_verte.off()
 
-# démarrer le thread
-_thread.start_new_thread(lectureRep,())
+try :
+    while True:    
+                
+        rep = sys.stdin.readline().strip() 
+        
+        # si on mesure la distance
+        if rep.lower() == "distance":
+
+            distance = calculDistance()
+            
+            lcd_ecran.clear()
+            lcd_ecran.move_to(0,0)
+            lcd_ecran.putstr("Distance: ")
+            lcd_ecran.move_to(0,1)
+            lcd_ecran.putstr(str(distance) + " cm")
+            
+            # envoyer la distance à l'hôte
+            print(distance)
+            
+            # faire clignoter la lumière verte quelques fois
+            led_rouge.off()
+            clignoterLumiere(led_verte)
+            led_verte.on()
+except:
+    pass

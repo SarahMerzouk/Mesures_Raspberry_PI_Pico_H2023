@@ -3,9 +3,10 @@ from tkinter import ttk
 import tkinter as tk
 import serial
 import datetime
+from module import Mesure
 
 # ouvrir le port serie pour le connexion
-#s = serial.Serial("COM3")
+s = serial.Serial("COM3")
 
 class Interface(tk.Tk):
     def __init__(self):
@@ -24,6 +25,8 @@ class Interface(tk.Tk):
         
         # boutons radio pour choisir si on veut mesurer la distance ou l'angle (inactif au début)
         self.rbtn_var = tk.IntVar()
+        self.typeMesure = ""
+        
         self.btnRadio_distance = tk.Radiobutton(self, 
                text="Mesurer la distance",
                padx = 20, 
@@ -42,22 +45,6 @@ class Interface(tk.Tk):
         self.btnRadio_angle["command"] = self.rbtn_mesurerAngle_click
         self.btnRadio_angle.pack()
         self.rbtn_var.set(1)
-
-        # label pour la mesure
-        self.lbl_mesure = tk.Label(self, text="Écrire si c'est la mesure d'une distance ou d'un angle:")
-        self.lbl_mesure.pack()
-        
-        # champ texte pour saisir la description de la mesure (si c'est une distance ou un angle) (inactif au début)
-        self.txt_description = tk.Text(self, width=30, height=1, state="disabled")
-        self.txt_description.pack()
-
-        # label pour afficher l'angle à envoyer au pico, si c'est une angle qu'on mesure
-        self.lbl_nombreAngle = tk.Label(self, text="Angle:")
-        self.lbl_nombreAngle.pack()
-        
-        # champ texte pour saisir l'angle, si c'est un angle qu'on mesure (inactif si on ne clique pas sur le bouton radion pour mesure l'angle)
-        self.txt_angle = tk.Text(self, width=3, height=1, state="disabled")
-        self.txt_angle.pack()
         
         # la listBox qui contient les mesures soit des distances, soit des angles
         self.list_mesures = tk.Listbox(self, height=5, width=40, selectmode=tk.SINGLE, selectbackground="blue")
@@ -73,31 +60,25 @@ class Interface(tk.Tk):
         self.lbl_etat_systeme = tk.Label(self, text="DÉSACTIVÉ", fg="red")
         self.lbl_etat_systeme.pack(side="bottom")
         
-    def btn_demarrerCaptation_click(self):
-        
+    def btn_demarrerCaptation_click(self):        
         # activer mes radios boutons, mon champ description et mon bouton
         self.btnRadio_distance.config(state="active")
         self.btnRadio_angle.config(state="active")
-        self.txt_description.config(state="normal")
         self.btn_mesurer.config(state="active")
         self.lbl_etat_systeme.config(text="ACTIVÉ", fg="green")
         
     def rbtn_mesurerDistance_click(self):
-        
-        # désactiver mon champ texte pour entrer un angle
-        self.txt_angle.delete("1.0","end")
-        self.txt_description.delete("1.0","end")
-        self.txt_angle.config(state="disabled")    
+        self.typeMesure = "distance" 
            
     def rbtn_mesurerAngle_click(self):
-        
-        # activer mon champ texte pour entrer un angle
-        self.txt_angle.delete("1.0","end")
-        self.txt_description.delete("1.0","end")
-        self.txt_angle.config(state="normal")
+        self.typeMesure = "angle"
     
     def btn_prendreMesure_click(self):
-        pass
+        if self.typeMesure == "distance":  
+            s.write(b"DISTANCE\n") # on mesure la distance
+            
+        elif self.typeMesure == "angle":
+            s.write(b"ANGLE\n") # on mesure la distance
     
 if __name__ == "__main__":
     app = Interface()

@@ -8,7 +8,7 @@ class Mesure ():
         self.type = type
         
     def __repr__(self):
-        return f'"{self.dateHeureMesure}","{self.description}"'
+        return f'"{self.dateHeureMesure}","{self.description}","{self.type}"'
     
     def afficherMesure(self):
         affichage_date = "Date et l'heure de mesure: " + self.dateHeureMesure + "\r\n"
