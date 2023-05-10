@@ -25,7 +25,7 @@ class Interface(tk.Tk):
         
         # boutons radio pour choisir si on veut mesurer la distance ou l'angle (inactif au début)
         self.rbtn_var = tk.IntVar()
-        self.typeMesure = ""
+        self.typeMesure = "distance"
         
         self.btnRadio_distance = tk.Radiobutton(self, 
                text="Mesurer la distance",
@@ -80,9 +80,7 @@ class Interface(tk.Tk):
     def rbtn_mesurerAngle_click(self):
         self.typeMesure = "angle"
     
-    def btn_prendreMesure_click(self):
-        i = 0
-        
+    def btn_prendreMesure_click(self):        
         if self.typeMesure == "distance":  
             s.write(b"DISTANCE\n") # on mesure la distance
         
@@ -92,8 +90,10 @@ class Interface(tk.Tk):
         # récupérer la distance du pico
         data_in = s.readline()
         data = str(data_in)[2:-5]
-        print(data)
-            
+        
+        # création de mon objet mesure
+        mesure = Mesure(datetime.datetime.now, data, self.typeMesure)
+        
 if __name__ == "__main__":
     app = Interface()
     app.mainloop()

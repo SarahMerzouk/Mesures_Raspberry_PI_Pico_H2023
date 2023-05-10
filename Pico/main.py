@@ -93,7 +93,7 @@ try :
         elif rep.lower() == "off":
             led_verte.off()
             clignoterLumiere(led_rouge)
-        
+            
             lcd_ecran.clear()
             lcd_ecran.move_to(0,0)
             lcd_ecran.putstr("Le systeme")
