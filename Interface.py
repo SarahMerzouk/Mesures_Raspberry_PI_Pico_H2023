@@ -12,7 +12,7 @@ class Interface(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Merzouk Sarah _ TP-Synthèse")
-        self.geometry("400x330")
+        self.geometry("400x200")
         
         # bouton pour démarrer le système de captation de distance et d'angle
         self.btn_demarrer = tk.Button(self, text="Démarrer le système de captation", width = 30)
@@ -45,11 +45,6 @@ class Interface(tk.Tk):
         self.btnRadio_angle["command"] = self.rbtn_mesurerAngle_click
         self.btnRadio_angle.pack()
         self.rbtn_var.set(1)
-        
-        # la listBox qui contient les mesures soit des distances, soit des angles
-        self.list_mesures = tk.Listbox(self, height=5, width=40, selectmode=tk.SINGLE, selectbackground="blue")
-        self.list_mesures.pack()
-        self.list_mesures.bind("<<ListboxSelect>>")
         
         # bouton pour prendre la mesure (inactif au début)
         self.btn_mesurer = tk.Button(self, text="Prendre la mesure", width = 30, state="disabled")
@@ -94,19 +89,10 @@ class Interface(tk.Tk):
         elif self.typeMesure == "angle":
             s.write(b"ANGLE\n") # on mesure la distance
         
-        """
         # récupérer la distance du pico
         data_in = s.readline()
         data = str(data_in)[2:-5]
         print(data)
-        
-        if data != "":
-            mesure = Mesure(datetime.datetime.now, data, self.typeMesure)
-                
-            # ajout de la mesure dans le listBoX
-            self.list_mesures.insert(i, mesure)
-            i+=1
-        """
             
 if __name__ == "__main__":
     app = Interface()
