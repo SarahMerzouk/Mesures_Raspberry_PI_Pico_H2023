@@ -4,6 +4,7 @@ import tkinter as tk
 import serial
 import datetime
 from module import Mesure
+from connexionBD import BaseDeDonnees
 
 # ouvrir le port serie pour le connexion
 s = serial.Serial("COM3")
@@ -73,14 +74,18 @@ class Interface(tk.Tk):
         self.btn_demarrer.config(state="disabled")
         self.btn_mesurer.config(state="disabled")
         self.lbl_etat_systeme.config(text="DÉSACTIVÉ", fg="red")
-        
+    
+    # btn radio distance    
     def rbtn_mesurerDistance_click(self):
         self.typeMesure = "distance" 
-           
+    
+    # btn radio angle
     def rbtn_mesurerAngle_click(self):
         self.typeMesure = "angle"
     
-    def btn_prendreMesure_click(self):        
+    def btn_prendreMesure_click(self):
+    
+        
         if self.typeMesure == "distance":  
             s.write(b"DISTANCE\n") # on mesure la distance
         
@@ -91,9 +96,21 @@ class Interface(tk.Tk):
         data_in = s.readline()
         data = str(data_in)[2:-5]
         
-        # création de mon objet mesure
-        mesure = Mesure(datetime.datetime.now, data, self.typeMesure)
+        # création de mon objet Mesure
+        mesure = Mesure(datetime.datetime.now(), data, self.typeMesure) 
         
+        # création de ma base de données
+        bd = BaseDeDonnees("mesuresBD.db") # base de données
+
+        # créer ma table
+        bd.create_table()
+
+        # insérer mes données
+        data = float(mesure.dataMesure)
+        dateHeure_string = mesure.dateHeureMesure.isoformat()
+        
+        bd.insertInto_table(dateHeure_string, mesure.type, data)
+
 if __name__ == "__main__":
     app = Interface()
     app.mainloop()
