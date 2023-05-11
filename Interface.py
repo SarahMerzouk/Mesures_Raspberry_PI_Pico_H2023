@@ -4,7 +4,7 @@ import tkinter as tk
 import serial
 import datetime
 from module import Mesure
-from connexionBD import BaseDeDonnees
+from BaseDeDonnees import BaseDeDonnees
 
 # ouvrir le port serie pour le connexion
 s = serial.Serial("COM3")
@@ -84,7 +84,6 @@ class Interface(tk.Tk):
         self.typeMesure = "angle"
     
     def btn_prendreMesure_click(self):
-    
         
         if self.typeMesure == "distance":  
             s.write(b"DISTANCE\n") # on mesure la distance
