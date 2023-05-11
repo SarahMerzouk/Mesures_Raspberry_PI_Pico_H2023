@@ -13,7 +13,11 @@ class Interface(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Merzouk Sarah _ TP-Synthèse")
-        self.geometry("400x200")
+        self.geometry("400x250")
+        
+        # label pour afficher le titre de la page
+        self.lbl_titre = tk.Label(self, text="Système de captation de mesures (Distance / Agle)", fg="blue", height=3, font=('Helvetica', 10))
+        self.lbl_titre.pack()
         
         # bouton pour démarrer le système de captation de distance et d'angle
         self.btn_demarrer = tk.Button(self, text="Démarrer le système de captation", width = 30)
