@@ -84,6 +84,7 @@ class Interface(tk.Tk):
         self.typeMesure = "angle"
     
     def btn_prendreMesure_click(self):
+        list_mesures = [] # listes qui contient toutes les mesures
         
         if self.typeMesure == "distance":  
             s.write(b"DISTANCE\n") # on mesure la distance
@@ -97,6 +98,7 @@ class Interface(tk.Tk):
         
         # création de mon objet Mesure
         mesure = Mesure(datetime.datetime.now(), data, self.typeMesure) 
+        list_mesures.append(mesure)
         
         # création de ma base de données
         bd = BaseDeDonnees("mesuresBD.db") # base de données
