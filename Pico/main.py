@@ -1,4 +1,4 @@
-from machine import Pin, I2C
+from machine import Pin, I2C, PWM
 import time
 from I2C_LCD import I2cLcd
 from random import randint
@@ -41,6 +41,9 @@ ds = DistanceSensor(echo=18, trigger=19)
 servo = Servo(2)
 servo.ServoAngle(0)
 
+# BUZZER
+buzzer = PWM(Pin(15))
+
 ###################### CAPTATION DE DONNÉES ######################
 lcd_ecran.clear()
 led_rouge.off()
@@ -54,6 +57,16 @@ try :
         
         # si on mesure la distance
         if rep.lower() == "distance":
+            
+            # allumer mon buzzer
+            buzzer.freq(1000)
+            buzzer.duty_u16(20000)
+            time.sleep(0.5)
+            buzzer.duty_u16(0)
+            buzzer.freq(3000)
+            buzzer.duty_u16(20000)
+            time.sleep(0.5)
+            buzzer.duty_u16(0)
 
             distance = ds.distance
             
@@ -72,9 +85,19 @@ try :
             led_verte.on()
             
         elif rep.lower() == "angle":
+            
+            # activer mon buzzer
+            buzzer.freq(1000)
+            buzzer.duty_u16(20000)
+            time.sleep(0.5)
+            buzzer.duty_u16(0)
+            buzzer.freq(3000)
+            buzzer.duty_u16(20000)
+            time.sleep(0.5)
+            buzzer.duty_u16(0)
             angle = randint(1,360)
             
-            # envoyer l'angle à l'hôte
+            # activer l'angle à l'hôte
             print(angle)
             
             lcd_ecran.clear()
@@ -91,6 +114,17 @@ try :
             led_verte.on()
         
         elif rep.lower() == "off":
+            
+            # activer mon buzzer
+            buzzer.freq(4000)
+            buzzer.duty_u16(20000)
+            time.sleep(0.5)
+            buzzer.duty_u16(0)
+            buzzer.freq(1000)
+            buzzer.duty_u16(20000)
+            time.sleep(0.5)
+            buzzer.duty_u16(0)
+
             led_verte.off()
             clignoterLumiere(led_rouge)
             

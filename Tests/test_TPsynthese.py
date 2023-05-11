@@ -1,6 +1,6 @@
 import unittest
 
-class Test_TesterTPsynthese(unittest.TestCase):
+class test_TesterTPsynthese(unittest.TestCase):
     def egale(self):
         self.assertEqual(1,1)
 
