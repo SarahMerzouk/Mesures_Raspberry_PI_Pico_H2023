@@ -58,7 +58,7 @@ try :
         # si on mesure la distance
         if rep.lower() == "distance":
             
-            # allumer mon buzzer
+            # actier mon buzzer
             buzzer.freq(1000)
             buzzer.duty_u16(20000)
             time.sleep(0.5)

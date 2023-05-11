@@ -10,8 +10,8 @@ class Mesure ():
         return f'"{self.dateHeureMesure}","{self.type}"'
     
     def afficherMesure(self):
-        affichage_date = "Date et l'heure de mesure: " + self.dateHeureMesure + "\r\n"
-        affichage_dataMesure = "Données de mesure: " + self.dataMesure + "\r\n"
+        affichage_date = "Date et l'heure de mesure: " + str(self.dateHeureMesure) + "\r\n"
+        affichage_dataMesure = "Données de mesure: " + str(self.dataMesure) + "\r\n"
         affichage_type = "Type de la mesure: " + self.type # peut-être «distance» ou «angle»
         
         return affichage_date + affichage_dataMesure + affichage_type
