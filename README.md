@@ -10,9 +10,9 @@ Utilisation d'un Raspberry Pico et de ses capteurs.
 Selon le choix de l'utilisateur via l'interface graphique, soit mesurer la distance avec un capteur de distance ou mesurer l'angle avec un servomoteur.
 
 ## Fonctionnalités mises en oeuvres
-1.Mesurer la distance.
-2.Mesurer l'angle.
-3.Communication entre le pico et l'interface.
-4.Enregistrements dans la base de données.
-5.Tests unitaires.
+1. Mesurer la distance.
+2. Mesurer l'angle.
+3. Communication entre le pico et l'interface.
+4. Enregistrements dans la base de données.
+5. Tests unitaires.
 
